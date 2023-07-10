@@ -10,9 +10,6 @@ const models = require('./models/index');
 const logger = require('./lib/logger');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-
-const transcriptionRoutes = require('./routes/transcriptionRoutes');
 
 const app = express();
 
@@ -36,9 +33,6 @@ mongoose
 
 // JSON 파싱 미들웨어 설정
 app.use(express.json());
-
-// /api 경로로 들어오는 요청을 transcriptionRoutes로 전달
-app.use('/api', transcriptionRoutes);
 
 // DB 연결 확인 및 table 생성
 models.sequelize
@@ -70,7 +64,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
