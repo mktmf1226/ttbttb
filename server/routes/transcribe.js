@@ -3,6 +3,10 @@ const router = express.Router();
 const transcriptionController = require("../controllers/transcriptionController");
 
 // /transcribe 엔드포인트에 POST 요청을 처리하는 라우터
+
+router.post('/', transcriptionController.createTranscription);
+router.get('/transcriptions', transcriptionController.getTranscriptions);
+
 router.post("/", transcriptionController.createTranscription);
 
 // 버튼 누르기 테스트
@@ -94,5 +98,6 @@ router.get("/saveFile", async (req, res) => {
     res.status(500).json({ err: err.toString() });
   }
 });
+
 
 module.exports = router;

@@ -25,3 +25,17 @@ exports.createTranscription = async (req, res) => {
     res.status(500).json({ error: '음성 변환 중 오류 발생' });
   }
 };
+
+exports.getTranscriptions = async (req, res) => {
+  try {
+    console.log('d');
+
+    if (!Transcriptions.length) {
+      return res.status(404).send({ err: 'Todo not found' });
+    }
+
+    res.send(`find successfully: ${Transcriptions}`);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};

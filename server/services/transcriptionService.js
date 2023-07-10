@@ -10,7 +10,7 @@ exports.createTranscription = async (params) => {
   const voiceData = params.voiceData;
 
   // 변환된 텍스트를 MongoDB에 저장
-  const savedTranscription = await Transcription.create({
+  const savedTranscription = await Transcription.statics.create({
     text: voiceData,
   });
 
