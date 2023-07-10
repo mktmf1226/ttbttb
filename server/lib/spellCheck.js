@@ -39,9 +39,6 @@ const spellCheck = {
       const daumResult = await spellCheckByDAUM(sentence);
       const pnuResult = await spellCheckByPNU(sentence);
 
-      // console.log('DAUM Spell Check Result:', daumResult);
-      // console.log('PNU Spell Check Result:', pnuResult);
-
       // 로그 기록
       logger.info('DAUM Spell Check Result:', daumResult);
       logger.info('PNU Spell Check Result:', pnuResult);
@@ -52,12 +49,8 @@ const spellCheck = {
         pnuResult,
       };
     } catch (error) {
-      // console.error('Spell Check Error:', error);
-
       // 로그 기록
       logger.error('Spell Check Error:', error);
-
-      // 오류를 throw하여 상위 호출자에게 전달
       throw error;
     }
   },
