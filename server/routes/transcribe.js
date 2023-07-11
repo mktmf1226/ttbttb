@@ -14,9 +14,7 @@ router.get("/test", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
-    const result = {
-      msg: "버튼입력 요청완료",
-    };
+    const result = "test successed";
 
     res.status(200).json(result);
   } catch (err) {
@@ -29,9 +27,7 @@ router.get("/recStart", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
-    const result = {
-      msg: "녹음시작버튼 처리완료",
-    };
+    const result = "recStart-success";
 
     res.status(200).json(result);
   } catch (err) {
@@ -44,9 +40,7 @@ router.get("/recEnd", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
-    const result = {
-      msg: "녹음종료버튼 처리완료",
-    };
+    const result = "recEnd-success";
 
     res.status(200).json(result);
   } catch (err) {
@@ -54,14 +48,12 @@ router.get("/recEnd", async (req, res) => {
   }
 });
 
-// 저장 하기
+// DB 넣기
 router.get("/continueYes", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
-    const result = {
-      msg: "저장하기 처리완료",
-    };
+    const result = "dbsave-success";
 
     res.status(200).json(result);
   } catch (err) {
@@ -74,9 +66,7 @@ router.get("/continueNo", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
-    const result = {
-      msg: "버리기 처리완료",
-    };
+    const result ="discard-success";
 
     res.status(200).json(result);
   } catch (err) {
@@ -89,9 +79,7 @@ router.get("/saveFile", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
-    const result = {
-      msg: "파일저장 처리완료",
-    };
+    const result = "file-success";
 
     res.status(200).json(result);
   } catch (err) {
