@@ -1,5 +1,4 @@
 const { sequelize } = require('./connection');
-// const Department = require('./department');
 
 const db = {};
 
