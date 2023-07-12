@@ -6,14 +6,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const corsConfig = require('./config/corsConfig.json');
-// const models = require('./models/index');
 const logger = require('./lib/logger');
 const dotenv = require('dotenv');
 
 const indexRouter = require('./routes/index');
-
-const usersRouter = require('./routes/users');
-// const transcribeRouter = require('./routes/transcribe');
 
 const app = express();
 
@@ -30,30 +26,36 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // MongoDB에 연결
-mongoose
+const db = require('./models/index.js');
+db.mongoose
   .connect(`${mongoDb.url}/${mongoDb.dbName}`, {
-    useNewUrlParser: true,
     useUnifiedTopology: true,
+    useNewUrlParser: true,
   })
   .then(() => {
-    // console.log('MongoDB에 연결됨');
-    logger.info('MongoDB에 연결됨');
+    console.log('mongoDb.url', mongoDb.url);
+    console.log('mongoDb.dbName', mongoDb.dbName);
+    console.log('db.mongoose', db.mongoose);
+    console.log('db.transcribe.db', db.transcribe.db);
+
+    logger.info('MongoDB 연결 성공.');
   })
-  .catch((error) => {
-    // console.error('MongoDB 연결 오류:', error);
-    logger.error('MongoDB 연결 오류:', error);
+  .catch((err) => {
+    logger.error('MongoDB 연결 실패:', err);
+    process.exit();
   });
 
 // JSON 파싱 미들웨어 설정
 app.use(express.json());
 
 app.use(cors(corsConfig));
+// CORS 옵션 설정
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
 
@@ -72,10 +74,5 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// // 서버 시작
-// app.listen(PORT, () => {
-//   console.log('http://localhost:${PORT}');
-// });
 
 module.exports = app;

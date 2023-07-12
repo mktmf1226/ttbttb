@@ -6,7 +6,7 @@ const transcribeRouter = require('./transcribe');
 const router = express.Router();
 
 router.use('/spells', spellsRouter);
-router.use('/transcribe', transcribeRouter);
+router.use('/api', transcribeRouter);
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
