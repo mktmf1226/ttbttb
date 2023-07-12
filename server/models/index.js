@@ -1,25 +1,18 @@
-const { sequelize } = require('./connection');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+
+dotenv.config();
+
+const mongoDb = {
+  url: process.env.MONGO_URI,
+  dbName: process.env.MONGO_DB_NAME,
+};
 
 const db = {};
-
-db.sequelize = sequelize;
-
-// model 생성
-// db.Department = Department;
-
-// 모델 init 자동 코드
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].init) {
-    db[modelName].init(sequelize);
-  }
-});
-
-// 관계설정 자동 코드
-// ['Department', 'User', 'Board', 'Post', '...']
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+db.mongoose = mongoose;
+db.url = `${mongoDb.url}/${mongoDb.dbName}`;
+db.transcribe = require('./transcribe.js')(mongoose);
 
 module.exports = db;
