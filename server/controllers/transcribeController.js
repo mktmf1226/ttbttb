@@ -1,5 +1,5 @@
-const TranscriptionService = require('../services/transcriptionService');
-const logger = require('../lib/logger');
+const TranscriptionService = require("../services/transcriptionService");
+const logger = require("../lib/logger");
 
 exports.createTranscription = async (req, res) => {
   const params = { voiceData: req.body.voiceData };
@@ -21,17 +21,17 @@ exports.createTranscription = async (req, res) => {
     // 변환된 텍스트를 응답으로 전송
     res.json({ transcription });
   } catch (error) {
-    console.error('음성 변환 중 오류 발생:', error);
-    res.status(500).json({ error: '음성 변환 중 오류 발생' });
+    console.error("음성 변환 중 오류 발생:", error);
+    res.status(500).json({ error: "음성 변환 중 오류 발생" });
   }
 };
 
 exports.getTranscriptions = async (req, res) => {
   try {
-    console.log('d');
+    console.log("d");
 
     if (!Transcriptions.length) {
-      return res.status(404).send({ err: 'Todo not found' });
+      return res.status(404).send({ err: "Todo not found" });
     }
 
     res.send(`find successfully: ${Transcriptions}`);
@@ -39,3 +39,4 @@ exports.getTranscriptions = async (req, res) => {
     res.status(500).send(err);
   }
 };
+

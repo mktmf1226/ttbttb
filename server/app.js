@@ -8,6 +8,7 @@ const cors = require('cors');
 const corsConfig = require('./config/corsConfig.json');
 const logger = require('./lib/logger');
 const dotenv = require('dotenv');
+const socket = require('./lib/socket');
 
 const indexRouter = require('./routes/index');
 
@@ -45,6 +46,24 @@ db.mongoose
     process.exit();
   });
 
+// socket.io
+// io = require('socket.io')();를 하면 bin/www에서 서버와 연결하기 어렵다
+// bin/www와 socket 연결은 www 에서 적용한다
+const io = require('socket.io')({
+  path: '/socket.io', // 경로 설정
+  cors: {
+    origin: [
+      'http://localhost:3000',
+      'http://192.168.0.71:3000',
+      'http://192.168.0.75:3000',
+    ],
+    credentials: true,
+  },
+  pingTimeout: 600000,
+});
+app.io = io;
+global.io = io;
+
 // JSON 파싱 미들웨어 설정
 app.use(express.json());
 
@@ -74,5 +93,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// socekt.io 로직은 module.exports = app; 바로 직전에 입력
+socket.socketHandler(io);
 
 module.exports = app;
