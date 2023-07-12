@@ -9,7 +9,7 @@ const recordController = require('../controllers/recordController');
 router.post('/transcribe', transcribeController.create);
 router.get('/transcribe', transcribeController.findAll);
 router.get('/transcribe/:id', transcribeController.findOne);
-router.put('/transcribe/:id', transcribeController.update);
+router.patch('/transcribe/:id', transcribeController.update);
 router.delete('/transcribe/:id', transcribeController.delete);
 
 // 버튼 누르기 테스트

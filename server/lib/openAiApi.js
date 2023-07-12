@@ -12,16 +12,16 @@ const openai = new OpenAIApi(configuration);
 
 const runOpenAI = async () => {
   try {
-    // 오디오 파일을 읽어옵니다.
+    // 오디오 파일을 읽기.
     const audioFile = fs.createReadStream('./audio/test.mp3');
 
-    // Transcription(전사)을 생성합니다.
+    // Transcription(전사)을 생성.
     const Transcription = await openai.createTranscription(
       audioFile,
       'whisper-1'
     );
 
-    // 변환된 텍스트를 콘솔로 출력합니다.
+    // 변환된 텍스트를 콘솔로 출력.
     console.log(Transcription.data.text);
   } catch (error) {
     // 오류 처리
