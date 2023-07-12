@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+
+import socketIO from "../utils/socket";
 
 const RecordingComponent = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -8,6 +11,11 @@ const RecordingComponent = () => {
 
   let chunks = [];
   let interval;
+
+  // 소켓으로 받아오는 정보 처리
+  useEffect(() => {
+    socketIO.initializeSocket();
+  },[]);
 
   const handleSuccess = (stream) => {
     const mediaRecorderOptions = { mimeType: "audio/webm" };

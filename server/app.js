@@ -9,11 +9,9 @@ const corsConfig = require('./config/corsConfig.json');
 // const models = require('./models/index');
 const logger = require('./lib/logger');
 const dotenv = require('dotenv');
+const socket = require('./lib/socket');
 
 const indexRouter = require('./routes/index');
-
-const usersRouter = require('./routes/users');
-// const transcribeRouter = require('./routes/transcribe');
 
 const app = express();
 
@@ -44,6 +42,24 @@ mongoose
     logger.error('MongoDB 연결 오류:', error);
   });
 
+// socket.io
+// io = require('socket.io')();를 하면 bin/www에서 서버와 연결하기 어렵다
+// bin/www와 socket 연결은 www 에서 적용한다
+const io = require("socket.io")({
+  path: "/socket.io", // 경로 설정
+  cors: {
+    origin: [
+      "http://localhost:3000",
+      "http://192.168.0.71:3000",
+      "http://192.168.0.75:3000",
+    ],
+    credentials: true,
+  },
+  pingTimeout: 600000,
+});
+app.io = io;
+global.io = io;
+
 // JSON 파싱 미들웨어 설정
 app.use(express.json());
 
@@ -73,9 +89,7 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-// // 서버 시작
-// app.listen(PORT, () => {
-//   console.log('http://localhost:${PORT}');
-// });
+// socekt.io 로직은 module.exports = app; 바로 직전에 입력
+socket.socketHandler(io);
 
 module.exports = app;
