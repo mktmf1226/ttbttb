@@ -1,13 +1,18 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+
 const transcriptionController = require("../controllers/transcriptionController");
-const recordController = require("../controllers/recordController");
 const spellsController = require("../controllers/spellsController");
+const transcribeController = require('../controllers/transcribe');
+const recordController = require('../controllers/recordController');
 
 // /transcribe 엔드포인트에 POST 요청을 처리하는 라우터
 
-router.post('/', transcriptionController.createTranscription);
-router.get('/transcriptions', transcriptionController.getTranscriptions);
+router.post('/transcribe', transcribeController.create);
+router.get('/transcribe', transcribeController.findAll);
+router.get('/transcribe/:id', transcribeController.findOne);
+router.patch('/transcribe/:id', transcribeController.update);
+router.delete('/transcribe/:id', transcribeController.delete);
 
 // A 녹음 시작 수행
 router.get("/recStart", recordController.recordStart);
@@ -20,7 +25,7 @@ router.get("/dbSave", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
-    const result = "dbsave-success";
+    const result = 'dbSave-success';
 
     res.status(200).json(result);
   } catch (err) {
@@ -28,12 +33,14 @@ router.get("/dbSave", async (req, res) => {
   }
 });
 
+
 // C 저장하지 않기 버튼 수행
 router.get("/discard", async (req, res) => {
+  
   try {
     const params = req.query;
     console.log(params);
-    const result ="discard-success";
+    const result = 'discard-success';
 
     res.status(200).json(result);
   } catch (err) {
@@ -46,7 +53,7 @@ router.get("/saveFile", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
-    const result = "file-success";
+    const result = 'file-success';
 
     res.status(200).json(result);
   } catch (err) {

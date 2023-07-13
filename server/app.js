@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const corsConfig = require('./config/corsConfig.json');
-// const models = require('./models/index');
 const logger = require('./lib/logger');
 const dotenv = require('dotenv');
 const socket = require('./lib/socket');
@@ -28,30 +27,35 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // MongoDB에 연결
-mongoose
+const db = require('./models/index.js');
+db.mongoose
   .connect(`${mongoDb.url}/${mongoDb.dbName}`, {
-    useNewUrlParser: true,
     useUnifiedTopology: true,
+    useNewUrlParser: true,
   })
   .then(() => {
-    // console.log('MongoDB에 연결됨');
-    logger.info('MongoDB에 연결됨');
+    console.log('mongoDb.url', mongoDb.url);
+    console.log('mongoDb.dbName', mongoDb.dbName);
+    console.log('db.mongoose', db.mongoose);
+    console.log('db.transcribe.db', db.transcribe.db);
+
+    logger.info('MongoDB 연결 성공.');
   })
-  .catch((error) => {
-    // console.error('MongoDB 연결 오류:', error);
-    logger.error('MongoDB 연결 오류:', error);
+  .catch((err) => {
+    logger.error('MongoDB 연결 실패:', err);
+    process.exit();
   });
 
 // socket.io
 // io = require('socket.io')();를 하면 bin/www에서 서버와 연결하기 어렵다
 // bin/www와 socket 연결은 www 에서 적용한다
-const io = require("socket.io")({
-  path: "/socket.io", // 경로 설정
+const io = require('socket.io')({
+  path: '/socket.io', // 경로 설정
   cors: {
     origin: [
-      "http://localhost:3000",
-      "http://192.168.0.71:3000",
-      "http://192.168.0.75:3000",
+      'http://localhost:3000',
+      'http://192.168.0.71:3000',
+      'http://192.168.0.75:3000',
     ],
     credentials: true,
   },
@@ -73,12 +77,13 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
 
