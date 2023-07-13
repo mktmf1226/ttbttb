@@ -37,16 +37,16 @@ const spellCheck = {
 
     try {
       const daumResult = await spellCheckByDAUM(sentence);
-      const pnuResult = await spellCheckByPNU(sentence);
+      // const pnuResult = await spellCheckByPNU(sentence);
 
       // 로그 기록
-      logger.info('DAUM Spell Check Result:', daumResult);
-      logger.info('PNU Spell Check Result:', pnuResult);
+      // logger.info('DAUM Spell Check Result:', daumResult);
+      // logger.info('PNU Spell Check Result:', pnuResult);
 
       // 결과를 반환하여 다른 곳에서 활용
       return {
         daumResult,
-        pnuResult,
+        // pnuResult,
       };
     } catch (error) {
       // 로그 기록

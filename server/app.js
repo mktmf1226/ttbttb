@@ -63,7 +63,16 @@ global.io = io;
 // JSON 파싱 미들웨어 설정
 app.use(express.json());
 
-app.use(cors(corsConfig));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://192.168.0.71:3000",
+      "http://192.168.0.75:3000",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
