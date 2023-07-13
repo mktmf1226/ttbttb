@@ -151,7 +151,7 @@ exports.softDelete = async (req, res) => {
       deletedAt: new Date(),
     };
 
-    // id로 문서 업데이트
+    // id로 문서 삭제
     const updatedDocument = await Transcribe.findByIdAndUpdate(id, updateData, {
       useFindAndModify: false,
     });

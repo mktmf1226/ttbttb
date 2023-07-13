@@ -53,7 +53,7 @@ exports.saveFile = () => {
   }
 };
 
-//
+// api로 audio 쏘기
 exports.sendAudio = async (fileName) => {
   const dotenv = require("dotenv");
 
