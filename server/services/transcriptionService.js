@@ -1,6 +1,6 @@
 // const { createTranscription } = require('./openAi');
+
 const Transcription = require('../models/transcribe');
-const logger = require('../lib/logger');
 
 // 음성 데이터를 변환하여 MongoDB에 저장하는 함수
 exports.createTranscription = async (params) => {
@@ -24,3 +24,4 @@ exports.createTranscription = async (params) => {
   // 저장된 텍스트를 반환
   return savedTranscribe.text;
 };
+
