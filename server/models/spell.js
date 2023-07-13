@@ -1,7 +1,7 @@
 module.exports = (mongoose) => {
   // 맞춤법 모델 세팅
-  const Spelling = mongoose.model(
-    'Spelling',
+  const Spell = mongoose.model(
+    'Spell',
     mongoose.Schema(
       {
         check: String,
@@ -13,13 +13,13 @@ module.exports = (mongoose) => {
       { timestamps: true }
     )
   );
-  return Spelling;
+  return Spell;
 };
 
 // const mongoose = require('mongoose');
 // // audio to text 모델 세팅
 // const { Schema } = mongoose;
-// const spellingSchema = new Schema(
+// const spellSchema = new Schema(
 //   {
 //     check: {
 //       type: String,
@@ -33,4 +33,4 @@ module.exports = (mongoose) => {
 //   { timestamps: true }
 // );
 
-// module.exports = mongoose.model('Spelling', spellingSchema);
+// module.exports = mongoose.model('Spell', spellSchema);

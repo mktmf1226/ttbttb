@@ -15,6 +15,6 @@ db.mongoose = mongoose;
 db.url = `${mongoDb.url}/${mongoDb.dbName}`;
 db.audio = require('./audio.js')(mongoose); // 함수처럼 mongoose 돌림
 db.transcribe = require('./transcribe.js')(mongoose); // 함수처럼 mongoose 돌림
-db.spell = require('./spelling.js')(mongoose); // 함수처럼 mongoose 돌림
+db.spell = require('./spell.js')(mongoose); // 함수처럼 mongoose 돌림
 
 module.exports = db;

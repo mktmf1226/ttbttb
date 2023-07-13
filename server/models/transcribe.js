@@ -10,9 +10,9 @@ module.exports = (mongoose) => {
     mongoose.Schema(
       {
         text: String,
-        spelling: {
+        spell: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Spelling', // 맞춤법 콜렉션과의 참조
+          ref: 'Spell', // 맞춤법 콜렉션과의 참조
         },
         deletedAt: {
           type: Date,
@@ -37,9 +37,9 @@ module.exports = (mongoose) => {
 //       type: String,
 //       required: true,
 //     },
-//     spelling: {
+//     spell: {
 //       type: Schema.Types.ObjectId,
-//       ref: 'Spelling', // 맞춤법 콜렉션과의 참조
+//       ref: 'Spell', // 맞춤법 콜렉션과의 참조
 //     },
 //     deletedAt: {
 //       type: Date,
