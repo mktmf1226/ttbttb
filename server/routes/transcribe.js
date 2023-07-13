@@ -8,11 +8,12 @@ const recordController = require('../controllers/recordController');
 
 // /transcribe 엔드포인트에 POST 요청을 처리하는 라우터
 
-router.post('/transcribe', transcribeController.create);
-router.get('/transcribe', transcribeController.findAll);
-router.get('/transcribe/:id', transcribeController.findOne);
-router.patch('/transcribe/:id', transcribeController.update);
-router.delete('/transcribe/:id', transcribeController.delete);
+router.post('/', transcribeController.create);
+router.get('/', transcribeController.findAll);
+router.get('/:id', transcribeController.findOne);
+router.patch('/:id', transcribeController.update);
+// router.delete('/transcribe/:id', transcribeController.delete);
+router.delete('/:id', transcribeController.softDelete);
 
 // A 녹음 시작 수행
 router.get("/recStart", recordController.recordStart);

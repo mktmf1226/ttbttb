@@ -32,6 +32,7 @@ db.mongoose
   .connect(`${mongoDb.url}/${mongoDb.dbName}`, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    bufferCommands: false,
   })
   .then(() => {
     console.log('mongoDb.url', mongoDb.url);
