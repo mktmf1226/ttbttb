@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const transcriptionController = require("../controllers/transcriptionController");
+// const transcriptionController = require("../controllers/transcriptionController");
 const spellsController = require("../controllers/spellsController");
 const transcribeController = require('../controllers/transcribe');
 const recordController = require('../controllers/recordController');
@@ -10,7 +10,7 @@ const recordController = require('../controllers/recordController');
 
 router.post('/', transcribeController.create);
 router.get('/', transcribeController.findAll);
-router.get('/:id', transcribeController.findOne);
+// router.get('/:id', transcribeController.findOne);
 router.patch('/:id', transcribeController.update);
 // router.delete('/transcribe/:id', transcribeController.delete);
 router.delete('/:id', transcribeController.softDelete);

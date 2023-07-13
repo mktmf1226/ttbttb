@@ -41,6 +41,15 @@ exports.createSpells = async (req, res) => {
       logger.info(`(spellsController.createSpells.result) 다음 ${result.daumResult.length}개 단어를 수정했습니다.`);
       newResult.spellsResult = modifiedString;
 
+      // DB 저장 언니가 수정하세요
+      // const dbResult = await transcribe.create(modifiedString);
+      // console.log(dbResult);
+
+      // // 로그 기록
+      // logger.info(
+      //   `(transcribe.create.result) ${JSON.stringify(dbResult)}`
+      // );
+
       // 최종 응답
       res.status(200).json(newResult);
     }
