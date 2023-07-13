@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const transcriptionController = require("../controllers/transcriptionController");
+const spellsController = require("../controllers/spellsController");
 const transcribeController = require('../controllers/transcribe');
 const recordController = require('../controllers/recordController');
 
@@ -12,28 +14,14 @@ router.get('/transcribe/:id', transcribeController.findOne);
 router.patch('/transcribe/:id', transcribeController.update);
 router.delete('/transcribe/:id', transcribeController.delete);
 
-// 버튼 누르기 테스트
-router.get('/test', async (req, res) => {
-  try {
-    const params = req.query;
-    console.log(params);
-    const result = 'test success';
+// A 녹음 시작 수행
+router.get("/recStart", recordController.recordStart);
 
-    res.status(200).json(result);
-  } catch (err) {
-    res.status(500).json({ err: err.toString() });
-  }
-});
+// A 녹음 종료 수행
+router.get("/recEnd", recordController.recordEnd);
 
-// 녹음 시작
-
-router.get('/recStart', recordController.recordStart);
-
-// 녹음 종료
-router.get('/recEnd', recordController.recordEnd);
-
-// DB 넣기
-router.get('/dbSave', async (req, res) => {
+// B 저장하기 버튼 수행 (PASS THROUGH ! 버리지마)
+router.get("/dbSave", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
@@ -45,9 +33,10 @@ router.get('/dbSave', async (req, res) => {
   }
 });
 
-// 저장하지 않기
 
-router.get('/discard', async (req, res) => {
+// C 저장하지 않기 버튼 수행
+router.get("/discard", async (req, res) => {
+  
   try {
     const params = req.query;
     console.log(params);
@@ -59,8 +48,8 @@ router.get('/discard', async (req, res) => {
   }
 });
 
-// 끝내고 파일로 만들기
-router.get('/saveFile', async (req, res) => {
+// D 끝내고 파일로 만들기
+router.get("/saveFile", async (req, res) => {
   try {
     const params = req.query;
     console.log(params);
@@ -71,5 +60,9 @@ router.get('/saveFile', async (req, res) => {
     res.status(500).json({ err: err.toString() });
   }
 });
+
+// 녹음이 종료되고 클라이언트에서 보내는 파일 처리
+router.post("/sendAudio", recordController.sendAudio);
+router.post("/sendSpells", spellsController.createSpells);
 
 module.exports = router;

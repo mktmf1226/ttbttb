@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Daseul from './pages/Daseul';
+import Main from './pages/Main';
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <Daseul />
+      <Main />
     </div>
   );
 }
