@@ -21,16 +21,16 @@ const graphCode = `
   entity "Transcribe Collection" {
       _id ObjectId
       text String
-      spelling ObjectId
+      spall ObjectId
   }
 
-  entity "Spelling Collection" {
+  entity "Spall Collection" {
       _id ObjectId
       result String
   }
 
   "Audio Collection" ||..|| "Transcribe Collection" : "transcription"
-  "Transcribe Collection" ||..|| "Spelling Collection" : "spelling"
+  "Transcribe Collection" ||..|| "Spall Collection" : "spall"
 `;
 
 // 그래프 생성
