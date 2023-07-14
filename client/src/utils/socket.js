@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io(`192.168.0.75:8000`);
+const socket = io(`192.168.0.71:8000`);
 
 socket.on("connect", () => {
   console.log("Now Socket connected...");

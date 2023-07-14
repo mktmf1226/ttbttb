@@ -4,6 +4,7 @@ export default function Display(props) {
   // const [whisperResult, setWhisperResult] = useState("");
   const { whisperResult } = props;
   const { spellsResult } = props;
+  const { allResult } = props;
 
   return (
     <>
@@ -20,6 +21,10 @@ export default function Display(props) {
               <div>
                 <p>맞춤법 검사:</p>
                 <p>{spellsResult}</p>
+              </div>
+              <div>
+                <p>전체 문서:</p>
+                <p>{allResult}</p>
               </div>
             </>
           )}
