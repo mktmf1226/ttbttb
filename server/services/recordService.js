@@ -26,7 +26,7 @@ exports.recordEnd = () => {
 // dbSave 소켓통신
 exports.dbSave = () => {
   try {
-    socket.recEnd(io);
+    socket.dbSave(io);
     return "socket dbSave successed";
   } catch (error) {
     logger.error(`(recordService.dbSave.error) ${JSON.stringify(error)}`);
@@ -36,7 +36,7 @@ exports.dbSave = () => {
 // discard 소켓통신
 exports.discard = () => {
   try {
-    socket.recEnd(io);
+    socket.discard(io);
     return "socket discard successed";
   } catch (error) {
     logger.error(`(recordService.discard.error) ${JSON.stringify(error)}`);
@@ -46,7 +46,7 @@ exports.discard = () => {
 // saveFile 소켓통신
 exports.saveFile = () => {
   try {
-    socket.recEnd(io);
+    socket.saveFile(io);
     return "socket saveFile successed";
   } catch (error) {
     logger.error(`(recordService.saveFile.error) ${JSON.stringify(error)}`);

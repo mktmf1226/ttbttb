@@ -13,21 +13,29 @@ const Main = () => {
   const [audioDataRef, setAudioDataRef] = useState(null);
   const [whisperResult, setWhisperResult] = useState("");
   const [spellsResult, setSpellsResult] = useState("");
+  const [allResult, setAllResult] = useState([]);
 
   // 소켓으로 받아오는 정보 처리
   useEffect(() => {
     socket.on("recStart", startRecording);
     socket.on("recEnd", stopRecording);
+    socket.on("dbSave", showAllSpells);
+    socket.on("discard", deleteOneAndShowAllSpells);
+    socket.on("saveFile", createDownloadFile);
 
     return () => {
       socket.off("recStart", startRecording);
       socket.off("recEnd", stopRecording);
+      socket.off("dbSave", showAllSpells);
+      socket.off("discard", deleteOneAndShowAllSpells);
+      socket.off("saveFile", createDownloadFile);
     };
   }, []);
 
   useEffect(() => {
     // console.log("chunksRef.current", chunksRef.current);
-  }, [whisperResult]);
+    // console.log("allResult", allResult);
+  }, [allResult]);
 
   const handleSuccess = (stream) => {
     return new Promise((resolve, reject) => {
@@ -56,7 +64,9 @@ const Main = () => {
           setWhisperResult(response1.data.whisperResult);
 
           // 맞춤법 검사 api로 보내기
-          const response2 = await axios.post("/transcribe/sendSpells", {sentence : response1.data.whisperResult});
+          const response2 = await axios.post("/transcribe/sendSpells", {
+            sentence: response1.data.whisperResult,
+          });
           // console.log("11",response2.data.spellsResult);
           setSpellsResult(response2.data.spellsResult);
 
@@ -96,7 +106,7 @@ const Main = () => {
 
     setIsRecording(false);
 
-    console.log(mediaRecorderRef.current?.state);
+    // console.log(mediaRecorderRef.current?.state);
 
     if (
       mediaRecorderRef.current &&
@@ -104,6 +114,48 @@ const Main = () => {
     ) {
       mediaRecorderRef.current.stop();
     }
+  };
+
+  // dbSave
+  const showAllSpells = async () => {
+    console.log("dbSave");
+
+    try {
+      const response = await axios.get("/transcribe/selectAllSpells");
+      console.log(response.data);
+      
+      const data = response.data.map((item)=>{
+        return item.check;
+      });
+      setAllResult(data);
+
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
+  // discard
+  const deleteOneAndShowAllSpells = async () => {
+    console.log("discard");
+
+    try {
+      const response = await axios.delete("/transcribe/delete");
+      console.log(response.data);
+
+      const data = response.data.map((item)=>{
+        return item.check;
+      });
+      setAllResult(data);
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
+  // saveFile
+  const createDownloadFile = () => {
+    console.log("saveFile");
+
+
   };
 
   return (
@@ -128,7 +180,7 @@ const Main = () => {
       >
         녹음파일 다운로드
       </button>
-      <Display whisperResult={whisperResult} spellsResult={spellsResult} />
+      <Display whisperResult={whisperResult} spellsResult={spellsResult} allResult={allResult}/>
     </div>
   );
 };

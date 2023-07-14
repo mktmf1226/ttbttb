@@ -123,3 +123,31 @@ exports.softDeleteTranscribeById = async (id) => {
     throw new Error(error.message || `문서 삭제에 실패했습니다. (id: ${id})`);
   }
 };
+
+// id로 삭제가 아닌 최근 1 건 삭제
+exports.softDeleteTranscribeByDate = async () => {
+  try {
+    // 현재 시간으로 deletedAt 필드 업데이트
+    const updateDate = {
+      deletedAt: new Date(),
+    };
+
+    // 가장 최근 1건의 문서 수정
+    const recentRecord = await Transcribe.findOne().sort({ createdAt: -1 });
+    // 최근 1건을 수정합니다.
+    const updatedData = await Transcribe.findOneAndUpdate(
+      { _id: recentRecord._id },
+      {$set : updateDate},
+      { new: true }
+    );
+    if (!updatedData) {
+      logger.error("문서 삭제 데이터 수정 불가:", err);
+      throw new Error(`문서를 삭제할 수 없습니다.`);
+    }
+    `(Transcribe.softDeleteTranscribeByDate.data) ${JSON.stringify(updatedData)}`;
+    return updatedData;
+  } catch (error) {
+    logger.error("문서 삭제 데이터 수정 실패:", err);
+    throw new Error(error.message || `문서 삭제에 실패했습니다.`);
+  }
+};
