@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 axios.defaults.baseURL = "http://192.168.0.71:8000"; // 다슬컴
+// axios.defaults.baseURL = "http://192.168.0.76:8000"; // 성연언니컴
 axios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

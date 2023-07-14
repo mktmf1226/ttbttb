@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// const transcriptionController = require("../controllers/transcriptionController");
 const spellsController = require("../controllers/spellsController");
 const transcribeController = require('../controllers/transcribe');
 const recordController = require('../controllers/recordController');
