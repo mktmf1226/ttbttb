@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io(`192.168.0.71:8000`);
+const socket = io(`192.168.0.75:8000`);
 
 socket.on("connect", () => {
   console.log("Now Socket connected...");
@@ -30,7 +30,7 @@ export default socket;
 //     socket.on("recEnd", (data) => {
 //       console.log(data);
 //     });
-    
+
 //     socket.on("dbSave", (data) => {
 //       console.log(data);
 //     });
@@ -44,4 +44,3 @@ export default socket;
 //     });
 //   }
 // }
-
