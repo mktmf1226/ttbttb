@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 const spellsController = require("../controllers/spellsController");
-const transcribeController = require('../controllers/transcribe');
+const transcribeController = require('../controllers/transcribeController');
 const recordController = require('../controllers/recordController');
 
 // /transcribe 엔드포인트에 POST 요청을 처리하는 라우터
 
 router.post('/', transcribeController.create);
-router.get('/', transcribeController.findAll);
+router.get('/selectAllTranscribe', transcribeController.findAll);
+
 // router.get('/:id', transcribeController.findOne);
 router.patch('/:id', transcribeController.update);
 // router.delete('/transcribe/:id', transcribeController.delete);
@@ -64,5 +65,8 @@ router.get("/saveFile", async (req, res) => {
 // 녹음이 종료되고 클라이언트에서 보내는 파일 처리
 router.post("/sendAudio", recordController.sendAudio);
 router.post("/sendSpells", spellsController.createSpells);
+
+// 맞춤법검사결과 전체 조회
+router.get('/selectAllSpells', spellsController.findAll);
 
 module.exports = router;

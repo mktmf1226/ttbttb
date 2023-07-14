@@ -1,5 +1,5 @@
 const logger = require("./logger");
-const transcriptionService = require("../services/transcriptionService");
+const test = require("../test/daseul");
 
 const recStart = (socket) => {
   socket.emit("recStart", "recording has started");
@@ -53,7 +53,7 @@ const socketHandler = (io) => {
       // console.log(audioFile.type); // Blob 데이터의 MIME 타입 출력
 
       // 비즈니스 로직 수행
-      const result = transcriptionService.transcribe(audioBlob2);
+      const result = test.transcribe(audioBlob2);
     });
   }).on("error", (err) => {
     logger.error(`socket connect err:`, err);
