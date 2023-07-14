@@ -35,10 +35,10 @@ db.mongoose
     bufferCommands: false,
   })
   .then(() => {
-    console.log('mongoDb.url', mongoDb.url);
-    console.log('mongoDb.dbName', mongoDb.dbName);
-    console.log('db.mongoose', db.mongoose);
-    console.log('db.transcribe.db', db.transcribe.db);
+    // console.log('mongoDb.url', mongoDb.url);
+    // console.log('mongoDb.dbName', mongoDb.dbName);
+    // console.log('db.mongoose', db.mongoose);
+    // console.log('db.transcribe.db', db.transcribe.db);
 
     logger.info('MongoDB 연결 성공.');
   })

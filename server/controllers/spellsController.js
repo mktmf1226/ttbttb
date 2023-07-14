@@ -2,6 +2,7 @@ const spellService = require('../services/spellService');
 const spellCheck = require('../lib/spellCheck');
 const logger = require('../lib/logger');
 
+// 맞춤법 결과 insert
 exports.createSpells = async (req, res) => {
   try {
     const params = {
@@ -27,8 +28,6 @@ exports.createSpells = async (req, res) => {
       logger.info(
         `(spellsController.createSpells.result) 맞춤법이 완벽합니다.`
       );
-      // 최종 응답
-      res.status(200).json(newResult);
     }
 
     // 맞춤법 고칠 게 있다면
@@ -50,19 +49,33 @@ exports.createSpells = async (req, res) => {
       );
       newResult.spellsResult = modifiedString;
       // logger.info(`(modifiedString): ${modifiedString}`); // 이거 하나 추가했다고 에러??
-      // DB 저장
-      const dbResult = await spellService.createSpell(modifiedString);
-      // console.log(dbResult);
-
-      // 로그 기록
-      logger.info(
-        `(spellService.createSpell.result) ${JSON.stringify(dbResult)}`
-      );
-
-      // 최종 응답
-      res.status(200).json(newResult);
+     
     }
+    // DB 저장
+    const dbResult = await spellService.createSpell(newResult.spellsResult);
+    
+    // 로그 기록
+    logger.info(
+      `(spellService.createSpell.result) ${JSON.stringify(dbResult)}`
+    );
+    
+    // 최종 응답
+    res.status(200).json(newResult);
   } catch (err) {
     res.status(500).json({ err: err.toString() });
+  }
+};
+
+// 모든 문서 조회
+exports.findAll = async (req, res) => {
+  const { text } = req.query;
+
+  try {
+    const data = await spellService.findAllSpells(text);
+    res.send(data);
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: error.message || '문서 검색 실패했습니다.' });
   }
 };
