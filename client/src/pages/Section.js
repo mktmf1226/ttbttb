@@ -13,15 +13,22 @@ const Section = () => {
   const [audioDataRef, setAudioDataRef] = useState(null);
   const [whisperResult, setWhisperResult] = useState("");
   const [spellsResult, setSpellsResult] = useState("");
+  const [allResult, setAllResult] = useState([]);
 
   // 소켓으로 받아오는 정보 처리
   useEffect(() => {
     socket.on("recStart", startRecording);
     socket.on("recEnd", stopRecording);
+    socket.on("dbSave", showAllSpells);
+    socket.on("discard", deleteOneAndShowAllSpells);
+    socket.on("saveFile", createDownloadFile);
 
     return () => {
       socket.off("recStart", startRecording);
       socket.off("recEnd", stopRecording);
+      socket.off("dbSave", showAllSpells);
+      socket.off("discard", deleteOneAndShowAllSpells);
+      socket.off("saveFile", createDownloadFile);
     };
   }, []);
 
@@ -107,6 +114,67 @@ const Section = () => {
       mediaRecorderRef.current.stop();
     }
   };
+
+    // dbSave
+    const showAllSpells = async () => {
+      console.log("dbSave");
+  
+      try {
+        const response = await axios.get("/transcribe/selectAllSpells");
+        console.log(response.data);
+  
+        const data = response.data.map((item) => {
+          return item.check;
+        });
+        setAllResult(data);
+      } catch (error) {
+        console.log("Error", error);
+      }
+    };
+  
+    // discard
+    const deleteOneAndShowAllSpells = async () => {
+      console.log("discard");
+  
+      try {
+        const response = await axios.delete("/transcribe/delete");
+        console.log(response.data);
+  
+        const data = response.data.map((item) => {
+          return item.check;
+        });
+        setAllResult(data);
+      } catch (error) {
+        console.log("Error", error);
+      }
+    };
+  
+    // saveFile
+    const createDownloadFile = () => {
+      console.log("saveFile");
+  
+      // 다운로드 링크 생성
+      function downloadFile(content, filename) {
+        const blob = new Blob([content], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+  
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+  
+        document.body.appendChild(link);
+        link.click();
+  
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
+  
+      // 서버에서 받은 문자열과 파일명을 사용하여 다운로드 링크를 생성합니다.
+      const serverResponse = "This is the content of the file.";
+      const fileName = "example.txt";
+      downloadFile(serverResponse, fileName);
+    };
+
   return (
     <section className="text-gray-600 body-font">
       <div className="container flex flex-col items-center justify-center px-5 py-24 mx-auto">
@@ -153,7 +221,7 @@ const Section = () => {
               녹음파일 다운로드
             </button>
           </div> */}
-          <Display whisperResult={whisperResult} spellsResult={spellsResult} />
+          <Display whisperResult={whisperResult} spellsResult={spellsResult} allResult={allResult} />
         </div>
         {/* <img
           className="object-cover object-center w-5/6 mb-10 rounded lg:w-2/6 md:w-3/6"
