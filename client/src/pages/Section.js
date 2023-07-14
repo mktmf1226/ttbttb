@@ -115,74 +115,74 @@ const Section = () => {
     }
   };
 
-    // dbSave
-    const showAllSpells = async () => {
-      console.log("dbSave");
-  
-      try {
-        const response = await axios.get("/transcribe/selectAllSpells");
-        console.log(response.data);
-  
-        const data = response.data.map((item) => {
-          return item.check;
-        });
-        setAllResult(data);
-      } catch (error) {
-        console.log("Error", error);
-      }
-    };
-  
-    // discard
-    const deleteOneAndShowAllSpells = async () => {
-      console.log("discard");
-  
-      try {
-        const response = await axios.delete("/transcribe/delete");
-        console.log(response.data);
-  
-        const data = response.data.map((item) => {
-          return item.check;
-        });
-        setAllResult(data);
-      } catch (error) {
-        console.log("Error", error);
-      }
-    };
-  
-    // saveFile
-    const createDownloadFile = () => {
-      console.log("saveFile");
-  
-      // 다운로드 링크 생성
-      function downloadFile(content, filename) {
-        const blob = new Blob([content], { type: "text/plain" });
-        const url = URL.createObjectURL(blob);
-  
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = filename;
-  
-        document.body.appendChild(link);
-        link.click();
-  
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-      }
-  
-      // 서버에서 받은 문자열과 파일명을 사용하여 다운로드 링크를 생성합니다.
-      const serverResponse = "This is the content of the file.";
-      const fileName = "example.txt";
-      downloadFile(serverResponse, fileName);
-    };
+  // dbSave
+  const showAllSpells = async () => {
+    console.log("dbSave");
+
+    try {
+      const response = await axios.get("/transcribe/selectAllSpells");
+      console.log(response.data);
+
+      const data = response.data.map((item) => {
+        return item.check;
+      });
+      setAllResult(data);
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
+  // discard
+  const deleteOneAndShowAllSpells = async () => {
+    console.log("discard");
+
+    try {
+      const response = await axios.delete("/transcribe/delete");
+      console.log(response.data);
+
+      const data = response.data.map((item) => {
+        return item.check;
+      });
+      setAllResult(data);
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
+  // saveFile
+  const createDownloadFile = () => {
+    console.log("saveFile");
+
+    // 다운로드 링크 생성
+    function downloadFile(content, filename) {
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    // 서버에서 받은 문자열과 파일명을 사용하여 다운로드 링크를 생성합니다.
+    const serverResponse = "This is the content of the file.";
+    const fileName = "example.txt";
+    downloadFile(serverResponse, fileName);
+  };
 
   return (
     <section className="text-gray-600 body-font">
       <div className="container flex flex-col items-center justify-center px-5 py-24 mx-auto">
         <div className="w-full text-center lg:w-2/3">
-          <h1 className="mb-4 text-3xl font-medium text-gray-900 title-font sm:text-4xl">
+          <h1 className="mb-20 text-3xl font-medium text-gray-900 title-font sm:text-4xl">
             또박또박 STT 서비스
           </h1>
-          <p className="mb-8 leading-relaxed">또박또박 STT 서비스 설명</p>
+          {/* <p className="mb-8 leading-relaxed">또박또박 STT 서비스 설명</p> */}
           <div className="flex justify-center mb-5">
             <button
               className="inline-flex px-6 py-2 text-lg text-white bg-green-500 border-0 rounded focus:outline-none hover:bg-green-600"
@@ -221,7 +221,11 @@ const Section = () => {
               녹음파일 다운로드
             </button>
           </div> */}
-          <Display whisperResult={whisperResult} spellsResult={spellsResult} allResult={allResult} />
+          <Display
+            whisperResult={whisperResult}
+            spellsResult={spellsResult}
+            allResult={allResult}
+          />
         </div>
         {/* <img
           className="object-cover object-center w-5/6 mb-10 rounded lg:w-2/6 md:w-3/6"
