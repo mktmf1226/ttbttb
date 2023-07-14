@@ -5,7 +5,11 @@ export default function Display(props) {
   const { whisperResult } = props;
   const { spellsResult } = props;
   const { allResult } = props;
+  const { isRecording } = props;
 
+  if (isRecording) {
+    return <div>녹음 중...!</div>;
+  }
   return (
     <>
       <div className="Display">

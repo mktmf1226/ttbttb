@@ -226,6 +226,7 @@ const Section = () => {
             whisperResult={whisperResult}
             spellsResult={spellsResult}
             allResult={allResult}
+            isRecording={isRecording}
           />
         </div>
         {/* <img
