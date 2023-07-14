@@ -28,7 +28,7 @@ exports.createSpell = async (check) => {
 
 // 모든 스펠 체크 조회
 exports.findAllSpells = async () => {
-  const condition = { deleteAt: null };
+  const condition = { deletedAt: null };
 
   try {
     // 모든 스펠 체크 조회
@@ -123,5 +123,33 @@ exports.softDeleteSpellById = async (id) => {
     throw new Error(
       error.message || `스펠 체크 삭제에 실패했습니다. (id: ${id})`
     );
+  }
+};
+
+// id로 삭제가 아닌 최근 1 건 삭제
+exports.softDeleteSpellByDate = async () => {
+  try {
+    // 현재 시간으로 deletedAt 필드 업데이트
+    const updateDate = {
+      deletedAt: new Date(),
+    };
+
+    // 가장 최근 1건의 문서 수정
+    const recentRecord = await Spell.findOne().sort({ createdAt: -1 });
+    // 최근 1건을 수정합니다.
+    const updatedData = await Spell.findOneAndUpdate(
+      { _id: recentRecord._id },
+      {$set : updateDate},
+      { new: true }
+    );
+    if (!updatedData) {
+      logger.error("문서 삭제 데이터 수정 불가:", err);
+      throw new Error(`문서를 삭제할 수 없습니다.`);
+    }
+    `(Spell.softDeleteSpellByDate.data) ${JSON.stringify(updatedData)}`;
+    return updatedData;
+  } catch (error) {
+    logger.error("문서 삭제 데이터 수정 실패:", err);
+    throw new Error(error.message || `문서 삭제에 실패했습니다.`);
   }
 };
