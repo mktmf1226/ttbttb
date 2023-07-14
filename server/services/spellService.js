@@ -1,14 +1,14 @@
-const db = require('../models');
+const db = require("../models");
 const Spell = db.spell;
-const logger = require('../lib/logger');
+const logger = require("../lib/logger");
 
 // 스펠 체크 생성
 exports.createSpell = async (check) => {
   try {
     // 요청 확인
     if (!check) {
-      logger.error('스펠 체크 생성 불가:', err);
-      throw new Error('스펠 체크가 없습니다.');
+      logger.error("스펠 체크 생성 불가:", err);
+      throw new Error("스펠 체크가 없습니다.");
     }
 
     // 스펠 체크 설정
@@ -21,16 +21,14 @@ exports.createSpell = async (check) => {
     logger.info(`(Spell.createSpell.data) ${JSON.stringify(data)}`);
     return data;
   } catch (err) {
-    logger.error('스펠 체크 생성 실패:', err);
-    throw new Error(err.message || '스펠 체크 생성 실패 했습니다.');
+    logger.error("스펠 체크 생성 실패:", err);
+    throw new Error(err.message || "스펠 체크 생성 실패 했습니다.");
   }
 };
 
 // 모든 스펠 체크 조회
-exports.findAllSpells = async (check) => {
-  const condition = check
-    ? { check: { $regex: new RegExp(check), $options: 'i' } }
-    : {};
+exports.findAllSpells = async () => {
+  const condition = { deleteAt: null };
 
   try {
     // 모든 스펠 체크 조회
@@ -38,8 +36,8 @@ exports.findAllSpells = async (check) => {
     logger.info(`(Spell.findAllSpells.data) ${JSON.stringify(data)}`);
     return data;
   } catch (error) {
-    logger.error('전체 스펠 체크 검색 실패:', err);
-    throw new Error(error.message || '스펠 체크 검색 실패했습니다.');
+    logger.error("전체 스펠 체크 검색 실패:", err);
+    throw new Error(error.message || "스펠 체크 검색 실패했습니다.");
   }
 };
 
@@ -49,13 +47,13 @@ exports.findSpellById = async (id) => {
     // id로 단일 스펠 체크 조회
     const data = await Spell.findById(id);
     if (!data) {
-      logger.error('스펠 체크 조회 불가:', err);
+      logger.error("스펠 체크 조회 불가:", err);
       throw new Error(`스펠 체크를 찾을 수 없습니다. (id: ${id})`);
     }
     logger.info(`(Spell.findSpellById.data) ${JSON.stringify(data)}`);
     return data;
   } catch (error) {
-    logger.error('단일 스펠 체크 검색 실패:', err);
+    logger.error("단일 스펠 체크 검색 실패:", err);
     throw new Error(
       error.message || `단일 스펠 체크 조회에 실패했습니다. (id: ${id})`
     );
@@ -70,13 +68,13 @@ exports.updateSpellById = async (id, updateData) => {
       useFindAndModify: false,
     });
     if (!updatedSpell) {
-      logger.error('스펠 체크 수정 불가:', err);
+      logger.error("스펠 체크 수정 불가:", err);
       throw new Error(`스펠 체크를 수정할 수 없습니다. (id: ${id})`);
     }
     logger.info(`(Spell.updateSpellById.data) ${JSON.stringify(data)}`);
     return updatedSpell;
   } catch (error) {
-    logger.error('단일 스펠 체크 수정 실패:', err);
+    logger.error("단일 스펠 체크 수정 실패:", err);
     throw new Error(
       error.message || `스펠 체크 수정에 실패했습니다. (id: ${id})`
     );
@@ -89,13 +87,13 @@ exports.deleteSpellById = async (id) => {
     // id로 스펠 체크 삭제
     const deletedSpell = await Spell.findByIdAndRemove(id);
     if (!deletedSpell) {
-      logger.error('스펠 체크 삭제 불가:', err);
+      logger.error("스펠 체크 삭제 불가:", err);
       throw new Error(`스펠 체크를 삭제할 수 없습니다. (id: ${id})`);
     }
     logger.info(`(Spell.deleteSpellById.data) ${JSON.stringify(data)}`);
     return deletedSpell;
   } catch (error) {
-    logger.error('스펠 체크 삭제 실패:', err);
+    logger.error("스펠 체크 삭제 실패:", err);
     throw new Error(
       error.message || `스펠 체크 삭제에 실패했습니다. (id: ${id})`
     );
@@ -115,13 +113,13 @@ exports.softDeleteSpellById = async (id) => {
       useFindAndModify: false,
     });
     if (!updatedData) {
-      logger.error('스펠 체크 삭제 데이터 수정 불가:', err);
+      logger.error("스펠 체크 삭제 데이터 수정 불가:", err);
       throw new Error(`스펠 체크를 삭제할 수 없습니다. (id: ${id})`);
     }
     `(Spell.softDeleteSpellById.data) ${JSON.stringify(data)}`;
     return updatedData;
   } catch (error) {
-    logger.error('스펠 체크 삭제 데이터 수정 실패:', err);
+    logger.error("스펠 체크 삭제 데이터 수정 실패:", err);
     throw new Error(
       error.message || `스펠 체크 삭제에 실패했습니다. (id: ${id})`
     );

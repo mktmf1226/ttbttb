@@ -1,14 +1,14 @@
-const db = require('../models');
+const db = require("../models");
 const Transcribe = db.transcribe;
-const logger = require('../lib/logger');
+const logger = require("../lib/logger");
 
 // 문서 생성
 exports.createTranscribe = async (text) => {
   try {
     // 요청 확인
     if (!text) {
-      logger.error('텍스트 생성 불가:', err);
-      throw new Error('텍스트가 없습니다.');
+      logger.error("텍스트 생성 불가:", err);
+      throw new Error("텍스트가 없습니다.");
     }
 
     // 문서 설정
@@ -21,16 +21,14 @@ exports.createTranscribe = async (text) => {
     logger.info(`(Transcribe.createTranscribe.data) ${JSON.stringify(data)}`);
     return data;
   } catch (err) {
-    logger.error('문서 생성 실패:', err);
-    throw new Error(err.message || '문서 생성 실패 했습니다.');
+    logger.error("문서 생성 실패:", err);
+    throw new Error(err.message || "문서 생성 실패 했습니다.");
   }
 };
 
 // 모든 문서 조회
-exports.findAllTranscribes = async (text) => {
-  const condition = text
-    ? { text: { $regex: new RegExp(text), $options: 'i' } }
-    : {};
+exports.findAllTranscribes = async () => {
+  const condition = { deleteAt: null };
 
   try {
     // 모든 문서 조회
@@ -38,8 +36,8 @@ exports.findAllTranscribes = async (text) => {
     logger.info(`(Transcribe.findAllTranscribes.data) ${JSON.stringify(data)}`);
     return data;
   } catch (error) {
-    logger.error('전체 문서 검색 실패:', err);
-    throw new Error(error.message || '문서 검색 실패했습니다.');
+    logger.error("전체 문서 검색 실패:", err);
+    throw new Error(error.message || "문서 검색 실패했습니다.");
   }
 };
 
@@ -49,13 +47,13 @@ exports.findTranscribeById = async (id) => {
     // id로 단일 문서 조회
     const data = await Transcribe.findById(id);
     if (!data) {
-      logger.error('문서 조회 불가:', err);
+      logger.error("문서 조회 불가:", err);
       throw new Error(`문서를 찾을 수 없습니다. (id: ${id})`);
     }
     logger.info(`(Transcribe.findTranscribeById.data) ${JSON.stringify(data)}`);
     return data;
   } catch (error) {
-    logger.error('단일 문서 검색 실패:', err);
+    logger.error("단일 문서 검색 실패:", err);
     throw new Error(
       error.message || `단일 문서 조회에 실패했습니다. (id: ${id})`
     );
@@ -70,7 +68,7 @@ exports.updateTranscribeById = async (id, updateData) => {
       useFindAndModify: false,
     });
     if (!updatedText) {
-      logger.error('문서 수정 불가:', err);
+      logger.error("문서 수정 불가:", err);
       throw new Error(`문서를 수정할 수 없습니다. (id: ${id})`);
     }
     logger.info(
@@ -78,7 +76,7 @@ exports.updateTranscribeById = async (id, updateData) => {
     );
     return updatedText;
   } catch (error) {
-    logger.error('단일 문서 수정 실패:', err);
+    logger.error("단일 문서 수정 실패:", err);
     throw new Error(error.message || `문서 수정에 실패했습니다. (id: ${id})`);
   }
 };
@@ -89,7 +87,7 @@ exports.deleteTranscribeById = async (id) => {
     // id로 문서 삭제
     const deletedText = await Transcribe.findByIdAndRemove(id);
     if (!deletedText) {
-      logger.error('문서 삭제 불가:', err);
+      logger.error("문서 삭제 불가:", err);
       throw new Error(`문서를 삭제할 수 없습니다. (id: ${id})`);
     }
     logger.info(
@@ -97,7 +95,7 @@ exports.deleteTranscribeById = async (id) => {
     );
     return deletedText;
   } catch (error) {
-    logger.error('문서 삭제 실패:', err);
+    logger.error("문서 삭제 실패:", err);
     throw new Error(error.message || `문서 삭제에 실패했습니다. (id: ${id})`);
   }
 };
@@ -115,13 +113,13 @@ exports.softDeleteTranscribeById = async (id) => {
       useFindAndModify: false,
     });
     if (!updatedData) {
-      logger.error('문서 삭제 데이터 수정 불가:', err);
+      logger.error("문서 삭제 데이터 수정 불가:", err);
       throw new Error(`문서를 삭제할 수 없습니다. (id: ${id})`);
     }
     `(Transcribe.softDeleteTranscribeById.data) ${JSON.stringify(data)}`;
     return updatedData;
   } catch (error) {
-    logger.error('문서 삭제 데이터 수정 실패:', err);
+    logger.error("문서 삭제 데이터 수정 실패:", err);
     throw new Error(error.message || `문서 삭제에 실패했습니다. (id: ${id})`);
   }
 };

@@ -1,4 +1,4 @@
-const TranscribeService = require('../services/transcribeService');
+const TranscribeService = require("../services/transcribeService");
 
 // 문서 생성
 exports.create = async (req, res) => {
@@ -7,14 +7,14 @@ exports.create = async (req, res) => {
   try {
     // 요청 확인
     if (!text) {
-      throw new Error('텍스트가 없습니다.');
+      throw new Error("텍스트가 없습니다.");
     }
 
     // 서비스로 요청 전달
     const data = await TranscribeService.createTranscribe(text);
     res.send(data);
   } catch (err) {
-    res.status(500).send(err.message || '문서 생성 실패 했습니다.');
+    res.status(500).send(err.message || "문서 생성 실패 했습니다.");
   }
 };
 
@@ -24,11 +24,13 @@ exports.findAll = async (req, res) => {
 
   try {
     const data = await transcribeService.findAllTranscribes(text);
-    res.send(data);
+    const filteredData = data.filter((doc) => !doc.deleteAt); // 논리적 삭제된 문서 제외
+    res.send(filteredData);
+    // res.send(data);
   } catch (error) {
     res
       .status(500)
-      .send({ message: error.message || '문서 검색 실패했습니다.' });
+      .send({ message: error.message || "문서 검색 실패했습니다." });
   }
 };
 
@@ -42,7 +44,7 @@ exports.findOne = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .send({ message: error.message || '단일 문서 조회에 실패했습니다.' });
+      .send({ message: error.message || "단일 문서 조회에 실패했습니다." });
   }
 };
 
@@ -50,7 +52,7 @@ exports.findOne = async (req, res) => {
 exports.update = async (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: '데이터가 없습니다.',
+      message: "데이터가 없습니다.",
     });
   }
 
@@ -62,13 +64,13 @@ exports.update = async (req, res) => {
       req.body
     );
     res.send({
-      message: '문서가 수정되었습니다.',
+      message: "문서가 수정되었습니다.",
       updatedDocument,
     });
   } catch (error) {
     res
       .status(500)
-      .send({ message: error.message || '문서 수정에 실패했습니다.' });
+      .send({ message: error.message || "문서 수정에 실패했습니다." });
   }
 };
 
@@ -76,7 +78,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: '데이터가 없습니다.',
+      message: "데이터가 없습니다.",
     });
   }
 
@@ -85,13 +87,13 @@ exports.delete = async (req, res) => {
   try {
     const deletedDocument = await transcribeService.deleteTranscribeById(id);
     res.send({
-      message: '문서가 삭제되었습니다.',
+      message: "문서가 삭제되었습니다.",
       deletedDocument,
     });
   } catch (error) {
     res
       .status(500)
-      .send({ message: error.message || '문서 삭제에 실패했습니다.' });
+      .send({ message: error.message || "문서 삭제에 실패했습니다." });
   }
 };
 
@@ -99,7 +101,7 @@ exports.delete = async (req, res) => {
 exports.softDelete = async (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: '데이터가 없습니다.',
+      message: "데이터가 없습니다.",
     });
   }
 
@@ -110,12 +112,12 @@ exports.softDelete = async (req, res) => {
       id
     );
     res.send({
-      message: '문서가 삭제되었습니다.',
+      message: "문서가 삭제되었습니다.",
       updatedDocument,
     });
   } catch (error) {
     res
       .status(500)
-      .send({ message: error.message || '문서 삭제에 실패했습니다.' });
+      .send({ message: error.message || "문서 삭제에 실패했습니다." });
   }
 };

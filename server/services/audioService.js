@@ -1,19 +1,19 @@
-const db = require('../models');
+const db = require("../models");
 const Audio = db.audio;
-const logger = require('../lib/logger');
+const logger = require("../lib/logger");
 
 // 오디오 생성
-exports.createAudio = async (check) => {
+exports.createAudio = async (audio) => {
   try {
     // 요청 확인
-    if (!check) {
-      logger.error('오디오 생성 불가:', err);
-      throw new Error('오디오가 없습니다.');
+    if (!audio) {
+      logger.error("오디오 생성 불가:", err);
+      throw new Error("오디오가 없습니다.");
     }
 
     // 오디오 설정
     const audio = new Audio({
-      check: check,
+      audio: audio,
     });
 
     // 오디오 저장
@@ -21,16 +21,14 @@ exports.createAudio = async (check) => {
     logger.info(`(Audio.createAudio.data) ${JSON.stringify(data)}`);
     return data;
   } catch (err) {
-    logger.error('오디오 생성 실패:', err);
-    throw new Error(err.message || '오디오 생성 실패 했습니다.');
+    logger.error("오디오 생성 실패:", err);
+    throw new Error(err.message || "오디오 생성 실패 했습니다.");
   }
 };
 
 // 모든 오디오 조회
-exports.findAllAudios = async (check) => {
-  const condition = check
-    ? { check: { $regex: new RegExp(check), $options: 'i' } }
-    : {};
+exports.findAllAudios = async () => {
+  const condition = { deleteAt: null };
 
   try {
     // 모든 오디오 조회
@@ -38,8 +36,8 @@ exports.findAllAudios = async (check) => {
     logger.info(`(Audio.findAllAudios.data) ${JSON.stringify(data)}`);
     return data;
   } catch (error) {
-    logger.error('전체 오디오 검색 실패:', err);
-    throw new Error(error.message || '오디오 검색 실패했습니다.');
+    logger.error("전체 오디오 검색 실패:", err);
+    throw new Error(error.message || "오디오 검색 실패했습니다.");
   }
 };
 
@@ -49,13 +47,13 @@ exports.findAudioById = async (id) => {
     // id로 단일 오디오 조회
     const data = await Audio.findById(id);
     if (!data) {
-      logger.error('오디오 조회 불가:', err);
+      logger.error("오디오 조회 불가:", err);
       throw new Error(`오디오를 찾을 수 없습니다. (id: ${id})`);
     }
     logger.info(`(Audio.findAudioById.data) ${JSON.stringify(data)}`);
     return data;
   } catch (error) {
-    logger.error('단일 오디오 검색 실패:', err);
+    logger.error("단일 오디오 검색 실패:", err);
     throw new Error(
       error.message || `단일 오디오 조회에 실패했습니다. (id: ${id})`
     );
@@ -70,13 +68,13 @@ exports.updateAudioById = async (id, updateData) => {
       useFindAndModify: false,
     });
     if (!updatedAudio) {
-      logger.error('오디오 수정 불가:', err);
+      logger.error("오디오 수정 불가:", err);
       throw new Error(`오디오를 수정할 수 없습니다. (id: ${id})`);
     }
     logger.info(`(Audio.updateAudioById.data) ${JSON.stringify(data)}`);
     return updatedAudio;
   } catch (error) {
-    logger.error('단일 오디오 수정 실패:', err);
+    logger.error("단일 오디오 수정 실패:", err);
     throw new Error(error.message || `오디오 수정에 실패했습니다. (id: ${id})`);
   }
 };
@@ -87,13 +85,13 @@ exports.deleteAudioById = async (id) => {
     // id로 오디오 삭제
     const deletedAudio = await Audio.findByIdAndRemove(id);
     if (!deletedAudio) {
-      logger.error('오디오 삭제 불가:', err);
+      logger.error("오디오 삭제 불가:", err);
       throw new Error(`오디오를 삭제할 수 없습니다. (id: ${id})`);
     }
     logger.info(`(Audio.deleteAudioById.data) ${JSON.stringify(data)}`);
     return deletedAudio;
   } catch (error) {
-    logger.error('오디오 삭제 실패:', err);
+    logger.error("오디오 삭제 실패:", err);
     throw new Error(error.message || `오디오 삭제에 실패했습니다. (id: ${id})`);
   }
 };
@@ -111,13 +109,13 @@ exports.softDeleteAudioById = async (id) => {
       useFindAndModify: false,
     });
     if (!updatedData) {
-      logger.error('오디오 삭제 데이터 수정 불가:', err);
+      logger.error("오디오 삭제 데이터 수정 불가:", err);
       throw new Error(`오디오를 삭제할 수 없습니다. (id: ${id})`);
     }
     `(Audio.softDeleteAudioById.data) ${JSON.stringify(data)}`;
     return updatedData;
   } catch (error) {
-    logger.error('오디오 삭제 데이터 수정 실패:', err);
+    logger.error("오디오 삭제 데이터 수정 실패:", err);
     throw new Error(error.message || `오디오 삭제에 실패했습니다. (id: ${id})`);
   }
 };
