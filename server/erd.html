@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const code = `
+        erDiagram
+        style defaultEntity lineColor black
+        style defaultRelationship lineColor black
+
+        entity "Audio Collection" {
+            _id ObjectId
+            audio String
+            transcription ObjectId
+        }
+
+        entity "Transcribe Collection" {
+            _id ObjectId
+            text String
+            spall ObjectId
+        }
+
+        entity "Spall Collection" {
+            _id ObjectId
+            result String
+        }
+
+        "Audio Collection" ||..|| "Transcribe Collection" : "transcription"
+        "Transcribe Collection" ||..|| "Spall Collection" : "spall"
+      `;
+
+        mermaid.initialize({ startOnLoad: true });
+        mermaid.render('mermaid-diagram', code, function (svgCode) {
+          document.getElementById('graph').innerHTML = svgCode;
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="graph"></div>
+  </body>
+</html>
